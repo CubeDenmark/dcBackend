@@ -10,14 +10,36 @@ const roomInitializeConnectionHandler = require("./socketHandlers/roomInitialize
 const roomSignalingDataHandler = require("./socketHandlers/roomSignalingDataHandler");
 
 const serverStore = require("./serverStore");
+const socketio = require('socket.io')
 
 const registerSocketServer = (server) => {
-  const io = require("socket.io")(server, {
+  const io = socketio(server, {
+      cors: [
+        //the domains that are allowed
+        '192.168.100.12:3000',
+
+
+        // if you have a lot od domains/IP
+        // 'localhost:3000',
+        // 'localhost:3001',
+        // 'localhost:3002',
+        // 'localhost:3003',
+    ],
+    methods: [
+        "GET",
+        "POST",
+    ]
+  });
+
+  // old
+  /*
+    const io = require("socket.io")(server, {
     cors: {
       origin: "*",
       methods: ["GET", "POST"],
     },
   });
+  */
 
   serverStore.setSocketServerInstance(io);
 
